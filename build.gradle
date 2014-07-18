@@ -30,8 +30,8 @@ uploadArchives {
             authentication(userName: '', password: '')
         }
         pom.version = "${currentVersion}"
-        pom.artifactId = "" //TODO: fill this in
-        pom.groupId = "com.ofg"
+        pom.artifactId = "${name}"
+        pom.groupId = "io.github.microhackathon"
     }
 }
 
@@ -56,8 +56,7 @@ task addHashFile << {
 
 jar {
     dependsOn addHashFile
-    baseName = '' //TODO: fill this in
-    version =  '0.1.0'
+    version = "0.1.0"
     from "commitHash.txt"
 }
 
