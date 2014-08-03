@@ -3,6 +3,8 @@ import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
 import groovy.transform.TypeChecked
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import static org.springframework.http.HttpStatus.OK
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse
 
 //TODO: this needs a usage example (preferably as tests)
 @TypeChecked
@@ -48,5 +50,9 @@ class StubbedHttpResponseBuilder {
                 .withStatus(status.value())
                 .withHeader('Content-Type', contentType)
                 .withBodyFile("/$responseBodyFileName")
-    }    
+    }
+
+    static ResponseDefinitionBuilder okResponse() {
+        return aResponse().withStatus(OK.value())
+    }
 }

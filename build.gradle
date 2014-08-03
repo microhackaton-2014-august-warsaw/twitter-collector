@@ -38,7 +38,7 @@ uploadArchives {
 ext {
     groovyVersion = '2.3.3'
     spockVersion = '0.7-groovy-2.0'
-    springBootVersion = '1.1.3.RELEASE'
+    springBootVersion = '1.1.4.RELEASE'
     jacksonMapper = '1.9.13'
     aspectjVersion = '1.8.1'
     microDepsVersion = '0.3.1'
@@ -73,6 +73,10 @@ repositories {
 }
 
 dependencies {
+    compile "org.springframework.boot:spring-boot-starter-social-twitter:$springBootVersion"
+    compile 'org.springframework:spring-context-support'
+    compile 'org.apache.httpcomponents:httpclient:4.3.4'
+    compile 'net.sf.ehcache:ehcache:2.8.3'
     compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     compile "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
     compile "org.codehaus.groovy:groovy-all:$groovyVersion:indy"

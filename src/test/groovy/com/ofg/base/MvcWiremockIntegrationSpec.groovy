@@ -9,15 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired
 
 @TypeChecked
 class MvcWiremockIntegrationSpec extends MvcIntegrationSpec {
-    protected WireMock colaWireMock
+    protected WireMock wireMock
     @Autowired HttpMockServer httpMockServer
 
     void setup() {
-        colaWireMock = new WireMock('localhost', httpMockServer.port())
-        colaWireMock.resetMappings()
+        wireMock = new WireMock('localhost', httpMockServer.port())
+        wireMock.configureFor("localhost", httpMockServer.port())
+        wireMock.resetMappings()
     }
 
-    protected void stubInteraction(MappingBuilder mapping, ResponseDefinitionBuilder response) {
-        colaWireMock.register(mapping.willReturn(response))
+    protected void mockInteraction(MappingBuilder mapping, ResponseDefinitionBuilder response) {
+        wireMock.register(mapping.willReturn(response))
     }
 }
