@@ -18,18 +18,18 @@ import static org.springframework.http.MediaType.APPLICATION_JSON
 @PackageScope class TwitterCollectorWorker {
     private TweetsGetter tweetsGetter
     private RestTemplate restTemplate = new RestTemplate()
-    private String correlatorUrl
+    private String analyzerUrl
 
     @Autowired
-    TwitterCollectorWorker(TweetsGetter tweetsGetter, @Value('${correlatorUrl}') String correlatorUrl) {
+    TwitterCollectorWorker(TweetsGetter tweetsGetter, @Value('${analyzerUrl}') String analyzerUrl) {
         this.tweetsGetter = tweetsGetter
-        this.correlatorUrl = correlatorUrl
+        this.analyzerUrl = analyzerUrl
     }
 
     @Async
-    void collectAndPassToCorrelator(String twitterLogin, Long pairId) {
+    void collectAndPassToAnalyzers(String twitterLogin, Long pairId) {
         Collection<Tweet> tweets = tweetsGetter.getTweets(twitterLogin)
-        restTemplate.put("$correlatorUrl/{pairId}", createEntity(tweets), pairId)
+        restTemplate.put("$analyzerUrl/{pairId}", createEntity(tweets), pairId)
     }
 
     private HttpEntity<Object> createEntity(Object object) {

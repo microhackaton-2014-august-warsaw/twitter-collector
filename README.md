@@ -11,7 +11,7 @@ Hit it at: /tweets/{userTwitterId}/{pairId}
 OUTPUT
 -----------------
 
-And it will hit correlator at /{pairId} with tweets taken from twitter
+And it will hit analyzers at /{pairId} with tweets taken from twitter
 
 ```
     [

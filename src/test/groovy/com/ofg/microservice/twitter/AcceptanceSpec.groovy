@@ -15,14 +15,14 @@ class AcceptanceSpec extends MvcWiremockIntegrationSpec {
 
     def "should return HTTP 200"() {
         given:
-            correlatorRespondsOk()
+            analyzerRespondsOk()
         expect:
             sendUsernameAndPairId().andExpect(status().isOk())
     }
 
-    def "should send tweets with pairId to correlator"() {
+    def "should send tweets with pairId to analyzer"() {
         given:
-            correlatorRespondsOk()
+            analyzerRespondsOk()
         when:
             sendUsernameAndPairId()
         then:
@@ -36,7 +36,7 @@ class AcceptanceSpec extends MvcWiremockIntegrationSpec {
                 accept(MediaType.APPLICATION_JSON))
     }
 
-    private correlatorRespondsOk() {
+    private analyzerRespondsOk() {
         mockInteraction(httpPut("/$pairId"), okResponse())
     }
 }
