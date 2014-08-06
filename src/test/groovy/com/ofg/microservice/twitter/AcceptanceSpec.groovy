@@ -1,9 +1,6 @@
 package com.ofg.microservice.twitter
 
-import com.github.tomakehurst.wiremock.client.WireMock
 import com.ofg.base.MicroserviceMvcWiremockSpec
-import com.ofg.infrastructure.base.dsl.WireMockHttpRequestMapper
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.ResultActions
 
@@ -30,7 +27,7 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
         when:
             sendUsernameAndPairId()
         then:
-            colaWireMock.verifyThat(putRequestedFor(urlEqualTo("/analyzer/$pairId")).
+            wireMock.verifyThat(putRequestedFor(urlEqualTo("/analyzer/$pairId")).
                     withRequestBody(containing('[{"extraData":{')).
                     withHeader("Content-Type", matching(MediaType.APPLICATION_JSON.toString())))
     }
