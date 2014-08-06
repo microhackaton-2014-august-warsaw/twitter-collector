@@ -1,9 +1,9 @@
 buildscript {
     repositories {
         mavenLocal()
-        maven { url "http://repo.spring.io/libs-snapshot" }
         mavenCentral()
         jcenter()
+        maven { url "http://repo.spring.io/libs-snapshot" }
     }
     dependencies {
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.1.4.RELEASE'
