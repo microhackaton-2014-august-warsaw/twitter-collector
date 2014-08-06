@@ -1,5 +1,6 @@
 package com.ofg.microservice.twitter
 
+import com.ofg.infrastructure.discovery.ServiceResolver
 import groovy.transform.PackageScope
 import groovy.transform.TypeChecked
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,20 +16,21 @@ import static org.springframework.http.MediaType.APPLICATION_JSON
 
 @TypeChecked
 @Component
-@PackageScope class TwitterCollectorWorker {
+@PackageScope class TwitterCollectorWorker implements TwitterCollector  {
     private TweetsGetter tweetsGetter
     private RestTemplate restTemplate = new RestTemplate()
-    private String analyzerUrl
+    private ServiceResolver serviceResolver
 
     @Autowired
-    TwitterCollectorWorker(TweetsGetter tweetsGetter, @Value('${analyzerUrl}') String analyzerUrl) {
+    TwitterCollectorWorker(TweetsGetter tweetsGetter, ServiceResolver serviceResolver) {
         this.tweetsGetter = tweetsGetter
-        this.analyzerUrl = analyzerUrl
+        this.serviceResolver = serviceResolver
     }
 
     @Async
     void collectAndPassToAnalyzers(String twitterLogin, Long pairId) {
         Collection<Tweet> tweets = tweetsGetter.getTweets(twitterLogin)
+        String analyzerUrl = serviceResolver.getUrl('analyzer').get()
         restTemplate.put("$analyzerUrl/{pairId}", createEntity(tweets), pairId)
     }
 

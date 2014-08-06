@@ -1,6 +1,6 @@
 package com.ofg.microservice
 
-import com.ofg.microservice.config.EnvironmentSetupVerifier
+import com.ofg.infrastructure.environment.EnvironmentSetupVerifier
 import groovy.transform.TypeChecked
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -15,11 +15,12 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = ["com.ofg.microservice", "com.mangofactory.swagger"])
 @EnableCaching
+//@EnableAsync TODO: FIx tests (add awaitility and delay for response)
 class Application {
 
     static void main(String[] args) {
         SpringApplication application = new SpringApplication(Application)
-        application.addListeners(new EnvironmentSetupVerifier())
+        application.addListeners(new EnvironmentSetupVerifier(Profiles.all()))
         application.run(args)
     }
 }

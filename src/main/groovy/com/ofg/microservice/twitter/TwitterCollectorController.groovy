@@ -11,10 +11,10 @@ import static org.springframework.util.StringUtils.hasText
 @TypeChecked
 @RestController
 class TwitterCollectorController {
-    private TwitterCollectorWorker collectorWorker
+    private TwitterCollector collectorWorker
 
     @Autowired
-    TwitterCollectorController(TwitterCollectorWorker collectorWorker) {
+    TwitterCollectorController(TwitterCollector collectorWorker) {
         this.collectorWorker = collectorWorker
     }
 

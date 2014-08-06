@@ -25,13 +25,12 @@ ext.currentVersion = "${versionPrefix}-${buildNrLoc}"
 
 uploadArchives {
     repositories.mavenDeployer {
-        repository(url: "http://nexus.4finance.net/content/repositories/Pipeline") {
-            //TODO: fill this in
-            authentication(userName: '', password: '')
+        repository(url: "http://nexus.microhackathon.pl/content/repositories/releases/") {
+            authentication(userName: 'deployment', password: 'deployment123')
         }
         pom.version = "${currentVersion}"
-        pom.artifactId = "${name}"
-        pom.groupId = "io.github.microhackathon"
+        pom.artifactId = "twitter-collector"
+        pom.groupId = "pl.microhackaton"
     }
 }
 
@@ -42,7 +41,9 @@ ext {
     jacksonMapper = '1.9.13'
     aspectjVersion = '1.8.1'
     microDepsVersion = '0.3.1'
+    microDepsSpringVersion = '0.0.8'
 
+    stubRepositoryUrl = 'http://nexus.microhackathon.pl/content/groups/public/'
     zookeeperPort = 2181
     zookeeperMockPort = 18081
 }
@@ -72,6 +73,10 @@ repositories {
     jcenter()
 }
 
+configurations {
+    mockDependencies
+}
+
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-social-twitter:$springBootVersion"
     compile 'org.springframework:spring-context-support'
@@ -91,10 +96,14 @@ dependencies {
     compile 'javax.validation:validation-api:1.1.0.Final'
     compile 'org.hibernate:hibernate-validator:5.1.1.Final'
     compile "org.aspectj:aspectjrt:$aspectjVersion"
-    compile("com.ofg:micro-deps-spring-config:0.0.2") {
+    // microservices
+    // microservices
+    compile("com.ofg:micro-deps-spring-config:$microDepsSpringVersion") {
         exclude group: 'org.slf4j'
         exclude group: 'log4j'
     }
+    compile 'com.ofg:micro-infra-spring:0.0.1'
+
     compile 'org.apache.ivy:ivy:2.3.0'
     compile "com.mangofactory:swagger-springmvc:0.8.4"
 
@@ -112,6 +121,8 @@ dependencies {
     }
     testCompile 'org.springframework:spring-test:4.0.5.RELEASE'
     testCompile 'com.github.tomakehurst:wiremock:1.46'
+    testCompile "com.ofg:micro-deps-spring-test-config:$microDepsSpringVersion"
+    mockDependencies 'com.ofg:micro-deps:0.3.1:fatJar'
 }
 
 tasks.withType(GroovyCompile) {

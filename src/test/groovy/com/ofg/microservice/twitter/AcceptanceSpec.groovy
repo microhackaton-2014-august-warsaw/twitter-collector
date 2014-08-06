@@ -1,15 +1,19 @@
 package com.ofg.microservice.twitter
-import com.ofg.base.MvcWiremockIntegrationSpec
+
+import com.github.tomakehurst.wiremock.client.WireMock
+import com.ofg.base.MicroserviceMvcWiremockSpec
+import com.ofg.infrastructure.base.dsl.WireMockHttpRequestMapper
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.ResultActions
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
-import static com.ofg.base.dsl.HttpRequestMapper.httpPut
-import static com.ofg.base.dsl.StubbedHttpResponseBuilder.okResponse
+import static com.ofg.infrastructure.base.dsl.WireMockHttpRequestMapper.wireMockPut
+import static org.springframework.http.HttpStatus.OK
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class AcceptanceSpec extends MvcWiremockIntegrationSpec {
+class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
     String pairId = '1'
     String testUserTwitterId = 'jnabrdalik'
 
@@ -26,7 +30,7 @@ class AcceptanceSpec extends MvcWiremockIntegrationSpec {
         when:
             sendUsernameAndPairId()
         then:
-            verify(putRequestedFor(urlEqualTo("/$pairId")).
+            colaWireMock.verifyThat(putRequestedFor(urlEqualTo("/analyzer/$pairId")).
                     withRequestBody(containing('[{"extraData":{')).
                     withHeader("Content-Type", matching(MediaType.APPLICATION_JSON.toString())))
     }
@@ -34,9 +38,10 @@ class AcceptanceSpec extends MvcWiremockIntegrationSpec {
     private ResultActions sendUsernameAndPairId() {
         mockMvc.perform(get("/tweets/$testUserTwitterId/$pairId").
                 accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
     }
 
     private analyzerRespondsOk() {
-        mockInteraction(httpPut("/$pairId"), okResponse())
+        stubInteraction(wireMockPut("/analyzer/$pairId"), aResponse().withStatus(OK.value()))
     }
 }

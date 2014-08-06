@@ -11,10 +11,11 @@ before_script:
  - "export JAVA_OPTS=-Xmx512m"
 
 script:
-- ./gradlew build --info --stacktrace
+- ./gradlew build --stacktrace
 
 env:
 - TERM=dumb
 
 after_success:
+- ./gradlew build uploadArchives -PbuildNr=$TRAVIS_BUILD_NUMBER --info --stacktrace
 - ./gradlew test jacocoTestReport coveralls -Pcoverage
