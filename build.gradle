@@ -54,6 +54,7 @@ task addHashFile << {
 
 jar {
     dependsOn addHashFile
+    version =  currentVersion
     from "commitHash.txt"
 }
 
