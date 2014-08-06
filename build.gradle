@@ -8,8 +8,7 @@ buildscript {
     dependencies {
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.1.4.RELEASE'
         classpath 'com.ofg:uptodate-gradle-plugin:0.0.5'
-        classpath 'com.ofg:micro-deps:0.3.1:fatJar'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:0.6.0'
+        if(project.hasProperty("coverage")) { classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:1.0.2' }
     }
 }
 
@@ -19,23 +18,25 @@ apply plugin: 'maven'
 apply plugin: 'sonar-runner'
 apply plugin: 'uptodate'
 
-ext.versionPrefix = "CD"
-ext.buildNrLoc = project.hasProperty('buildNr') ? "${buildNr}" : "000"
-ext.currentVersion = "${versionPrefix}-${buildNrLoc}"
+ext {
+    versionPrefix = "CD"
+    buildNrLoc = project.hasProperty('buildNr') ? "${buildNr}" : "000"
+    currentVersion = "${versionPrefix}-${buildNrLoc}"
+}
 
 uploadArchives {
     repositories.mavenDeployer {
         repository(url: "http://nexus.microhackathon.pl/content/repositories/releases/") {
             authentication(userName: 'deployment', password: 'deployment123')
         }
-        pom.version = "${currentVersion}"
-        pom.artifactId = "twitter-collector"
+        pom.version = currentVersion
+        pom.artifactId = project.name
         pom.groupId = "pl.microhackaton"
     }
 }
 
 ext {
-    groovyVersion = '2.3.3'
+    groovyVersion = '2.3.6'
     spockVersion = '0.7-groovy-2.0'
     springBootVersion = '1.1.4.RELEASE'
     jacksonMapper = '1.9.13'
@@ -57,7 +58,6 @@ task addHashFile << {
 
 jar {
     dependsOn addHashFile
-    version = "0.1.0"
     from "commitHash.txt"
 }
 
