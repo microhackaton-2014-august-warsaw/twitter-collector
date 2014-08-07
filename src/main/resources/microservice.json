@@ -2,7 +2,7 @@
     "pl": {
         "this": "pl/microhackaton/twitter-collector",
         "dependencies": {
-            "analyzer" : "pl/mickrohackaton/twitter-places-analyzer"
+            "analyzer" : "pl/microhackaton/twitter-places-analyzer"
         }
     }
 }
