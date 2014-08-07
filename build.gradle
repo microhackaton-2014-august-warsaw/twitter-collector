@@ -70,10 +70,10 @@ applicationDefaultJvmArgs = [ "-noverify" ]
 
 repositories {
     mavenLocal()
-    maven { url 'http://repository.codehaus.org' }
-    maven { url 'http://repo.spring.io/milestone' }
     mavenCentral()
     jcenter()
+    maven { url 'http://repository.codehaus.org' }
+    maven { url 'http://repo.spring.io/milestone' }
 }
 
 configurations {
