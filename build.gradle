@@ -8,7 +8,7 @@ buildscript {
     dependencies {
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.1.4.RELEASE'
         classpath 'com.ofg:uptodate-gradle-plugin:0.0.5'
-		classpath 'com.ofg:micro-deps-gradle-plugin:0.0.1'
+        classpath 'com.ofg:micro-deps-gradle-plugin:0.0.2'
         if(project.hasProperty("coverage")) { classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:1.0.2' }
     }
 }
@@ -104,7 +104,7 @@ dependencies {
         exclude group: 'org.slf4j'
         exclude group: 'log4j'
     }
-    compile 'com.ofg:micro-infra-spring:0.0.1'
+    compile 'com.ofg:micro-infra-spring:0.0.3-SNAPSHOT'
 
     runtime "cglib:cglib-nodep:3.1"
     runtime "org.objenesis:objenesis:2.1" // allows mocking of classes without default constructor (together with CGLIB)
@@ -175,5 +175,8 @@ if(project.hasProperty("coverage")) {
             property "sonar.junit.reportsPath", "build/test-results"
         }
     }
+}
 
+stubRunner {
+    stubContainingRepositoryUrl = "http://nexus.microhackathon.pl/content/repositories/releases"
 }
