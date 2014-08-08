@@ -27,7 +27,7 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
         when:
             sendUsernameAndPairId()
         then:
-            wireMock.verifyThat(putRequestedFor(urlEqualTo("/analyzer/$pairId")).
+            wireMock.verifyThat(putRequestedFor(urlEqualTo("/analyzer/api/$pairId")).
                     withRequestBody(containing('[{"extraData":{')).
                     withHeader("Content-Type", matching(MediaType.APPLICATION_JSON.toString())))
     }
@@ -39,6 +39,6 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
     }
 
     private analyzerRespondsOk() {
-        stubInteraction(wireMockPut("/analyzer/$pairId"), aResponse().withStatus(OK.value()))
+        stubInteraction(wireMockPut("/analyzer/api/$pairId"), aResponse().withStatus(OK.value()))
     }
 }
