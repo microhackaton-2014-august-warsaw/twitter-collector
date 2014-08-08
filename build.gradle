@@ -23,7 +23,7 @@ ext {
     versionPrefix = "CD"
     buildNrLoc = project.hasProperty('buildNr') ? "${buildNr}" : "000"
     currentVersion = "${versionPrefix}-${buildNrLoc}"
-    
+
     groovyVersion = '2.3.6'
     spockVersion = '0.7-groovy-2.0'
     springBootVersion = '1.1.4.RELEASE'
@@ -58,6 +58,13 @@ task addHashFile << {
 jar {
     dependsOn addHashFile
     from "commitHash.txt"
+}
+
+project.gradle.projectsEvaluated {
+    def activeProfile = project.gradle.startParameter.systemPropertiesArgs['spring.profiles.active']
+    if (activeProfile != null) {
+        applicationDefaultJvmArgs << "-Dspring.profiles.active=${project.gradle.startParameter.systemPropertiesArgs['spring.profiles.active']}"
+    }
 }
 
 run {
