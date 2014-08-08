@@ -178,5 +178,5 @@ if(project.hasProperty("coverage")) {
 }
 
 stubRunner {
-    stubContainingRepositoryUrl = "http://nexus.microhackathon.pl/content/repositories/releases"
+    stubContainingRepositoryUrl = stubRepositoryUrl
 }
