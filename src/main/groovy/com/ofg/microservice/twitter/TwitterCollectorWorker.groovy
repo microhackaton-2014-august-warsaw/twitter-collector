@@ -1,6 +1,7 @@
 package com.ofg.microservice.twitter
 
 import com.ofg.infrastructure.discovery.ServiceResolver
+import com.ofg.infrastructure.web.filter.correlationid.CorrelationIdHolder
 import groovy.transform.PackageScope
 import groovy.transform.TypeChecked
 import org.springframework.beans.factory.annotation.Autowired
@@ -43,6 +44,7 @@ import static org.springframework.http.MediaType.parseMediaType
     private HttpEntity<Object> createEntity(Object object) {
         HttpHeaders headers = new HttpHeaders()
         headers.setContentType(TWITTER_PLACES_ANALYZER_MEDIA_TYPE)
+        headers.set(CorrelationIdHolder.CORRELATION_ID_HEADER, CorrelationIdHolder.get())
         return new HttpEntity<Object>(object, headers);
     }
 }
