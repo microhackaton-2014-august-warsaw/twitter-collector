@@ -6,6 +6,7 @@ import org.springframework.test.web.servlet.ResultActions
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*
 import static com.ofg.infrastructure.base.dsl.WireMockHttpRequestMapper.wireMockPut
+import static com.ofg.microservice.twitter.TwitterCollectorWorker.TWITTER_PLACES_ANALYZER_MEDIA_TYPE
 import static org.springframework.http.HttpStatus.OK
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -29,7 +30,7 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
         then:
             wireMock.verifyThat(putRequestedFor(urlEqualTo("/analyzer/api/$pairId")).
                     withRequestBody(containing('[{"extraData":{')).
-                    withHeader("Content-Type", matching(MediaType.APPLICATION_JSON.toString())))
+                    withHeader("Content-Type", equalTo(TWITTER_PLACES_ANALYZER_MEDIA_TYPE.toString())))
     }
 
     private ResultActions sendUsernameAndPairId() {
