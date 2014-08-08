@@ -1,10 +1,14 @@
 package com.ofg.microservice.twitter
 
+import com.jayway.awaitility.Awaitility
 import com.ofg.base.MicroserviceMvcWiremockSpec
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.ResultActions
 
+import java.util.concurrent.TimeUnit
+
 import static com.github.tomakehurst.wiremock.client.WireMock.*
+import static com.jayway.awaitility.Awaitility.await
 import static com.ofg.infrastructure.base.dsl.WireMockHttpRequestMapper.wireMockPut
 import static com.ofg.microservice.twitter.TwitterCollectorWorker.TWITTER_PLACES_ANALYZER_MEDIA_TYPE
 import static org.springframework.http.HttpStatus.OK
@@ -19,7 +23,9 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
         given:
             analyzerRespondsOk()
         expect:
-            sendUsernameAndPairId().andExpect(status().isOk())
+            await().atMost(5, TimeUnit.SECONDS).until({
+                sendUsernameAndPairId().andExpect(status().isOk())
+            })
     }
 
     def "should send tweets with pairId to analyzer"() {
@@ -28,9 +34,10 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
         when:
             sendUsernameAndPairId()
         then:
-            wireMock.verifyThat(putRequestedFor(urlEqualTo("/analyzer/api/$pairId")).
-                    withRequestBody(containing('[{"extraData":{')).
-                    withHeader("Content-Type", equalTo(TWITTER_PLACES_ANALYZER_MEDIA_TYPE.toString())))
+            await().atMost(5, TimeUnit.SECONDS).until({ wireMock.verifyThat(putRequestedFor(urlEqualTo("/analyzer/api/$pairId")).
+                        withRequestBody(containing('[{"extraData":{')).
+                        withHeader("Content-Type", equalTo(TWITTER_PLACES_ANALYZER_MEDIA_TYPE.toString())))
+            })
     }
 
     private ResultActions sendUsernameAndPairId() {

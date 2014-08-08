@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.EnableAspectJAutoProxy
+import org.springframework.scheduling.annotation.EnableAsync
 
 @TypeChecked
 @Configuration
@@ -15,7 +16,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @ComponentScan(basePackages = ["com.ofg.microservice", "com.mangofactory.swagger"])
 @EnableCaching
-//@EnableAsync TODO: FIx tests (add awaitility and delay for response)
+@EnableAsync
 class Application {
 
     static void main(String[] args) {
