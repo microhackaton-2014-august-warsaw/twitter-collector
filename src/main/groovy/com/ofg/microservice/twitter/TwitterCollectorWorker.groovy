@@ -31,7 +31,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON
     void collectAndPassToAnalyzers(String twitterLogin, Long pairId) {
         Collection<Tweet> tweets = tweetsGetter.getTweets(twitterLogin)
         String analyzerUrl = serviceResolver.getUrl('analyzer').get()
-        restTemplate.put("$analyzerUrl/{pairId}", createEntity(tweets), pairId)
+        restTemplate.put("$analyzerUrl/api/{pairId}", createEntity(tweets), pairId)
     }
 
     private HttpEntity<Object> createEntity(Object object) {
