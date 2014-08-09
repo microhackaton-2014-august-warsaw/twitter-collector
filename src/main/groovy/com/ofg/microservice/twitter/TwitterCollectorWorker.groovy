@@ -34,7 +34,6 @@ import static org.springframework.http.MediaType.parseMediaType
         this.serviceResolver = serviceResolver
     }
 
-    @Async
     void collectAndPassToAnalyzers(String twitterLogin, Long pairId) {
         Collection<Tweet> tweets = tweetsGetter.getTweets(twitterLogin)
         String analyzerUrl = serviceResolver.getUrl('analyzer').get()
