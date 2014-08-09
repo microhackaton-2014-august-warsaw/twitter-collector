@@ -1,6 +1,5 @@
 package com.ofg.microservice.twitter
 
-import com.jayway.awaitility.Awaitility
 import com.ofg.base.MicroserviceMvcWiremockSpec
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.ResultActions
@@ -41,7 +40,7 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
     }
 
     private ResultActions sendUsernameAndPairId() {
-        mockMvc.perform(get("/tweets/$testUserTwitterId/$pairId").
+        mockMvc.perform(get("/$testUserTwitterId/$pairId").
                 accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
     }

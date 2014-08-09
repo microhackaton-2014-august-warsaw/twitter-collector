@@ -19,7 +19,7 @@ class TwitterCollectorController {
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @RequestMapping(value = "/tweets/{twitterLogin}/{pairId}", produces="application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/{twitterLogin}/{pairId}", produces="application/json", method = RequestMethod.GET)
     void getTweets(@PathVariable String twitterLogin, @PathVariable Long pairId) {
         hasText(twitterLogin); notNull(pairId)
         collectorWorker.collectAndPassToAnalyzers(twitterLogin, pairId)
