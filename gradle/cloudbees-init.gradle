@@ -1,0 +1,21 @@
+logger.info("Using CloudBees proxy server as the first Maven repository to speed up dependency resolution")
+
+ext.cloudBeesMavenProxyUrl = "http://repo.cloudbees.com/content/repositories/central/"
+
+gradle.projectsLoaded {
+    rootProject.allprojects {
+        buildscript {
+//            repositories.addFirst(???)  //TODO: How to explicit add repo at the beginning
+            repositories {
+                maven {
+                    url cloudBeesMavenProxyUrl
+                }
+            }
+        }
+        repositories {
+            maven {
+                url cloudBeesMavenProxyUrl
+            }
+        }
+    }
+}
