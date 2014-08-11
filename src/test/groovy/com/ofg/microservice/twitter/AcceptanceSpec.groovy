@@ -22,9 +22,9 @@ class AcceptanceSpec extends MicroserviceMvcWiremockSpec {
         given:
             analyzerRespondsOk()
         expect:
-            await().atMost(5, TimeUnit.SECONDS).until({
+//            await().atMost(5, TimeUnit.SECONDS).until({
                 sendUsernameAndPairId().andExpect(status().isOk())
-            })
+//            })
     }
 
     def "should send tweets with pairId to analyzer"() {
